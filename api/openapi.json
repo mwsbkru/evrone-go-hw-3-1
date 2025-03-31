@@ -1,0 +1,83 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Exercise 3.1 - OpenAPI 3.0",
+    "description": "Упражнение 3.1. Простенький веб-сервер с конфигурацией",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "hello",
+      "description": "Endpoints for say hello"
+    }
+  ],
+  "paths": {
+    "/hello": {
+      "get": {
+        "tags": [
+          "hello"
+        ],
+        "summary": "Say Hello",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "User name to say hello",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHelloResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "name must be present"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetHelloResponse": {
+        "type": "object",
+        "properties": {
+          "greeting": {
+            "type": "string",
+            "example": "Hollo world"
+          }
+        },
+        "required": [
+          "greeting"
+        ]
+      }
+    }
+  }
+}

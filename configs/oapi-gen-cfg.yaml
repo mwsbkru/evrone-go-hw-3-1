@@ -1,0 +1,5 @@
+package: httpserver
+output: pkg/httpserver/server.gen.go
+generate:
+  std-http-server: true
+  models: true
