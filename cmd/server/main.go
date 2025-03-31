@@ -32,5 +32,4 @@ func main() {
 	if err != nil {
 		slog.Error("Не удалось запустить сервер", slog.String("error", err.Error()))
 	}
-
 }
