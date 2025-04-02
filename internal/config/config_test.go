@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"os"
 	"testing"
 )
@@ -9,7 +8,7 @@ import (
 type testNewConfigCase struct {
 	name           string
 	expectedConfig Config
-	expectedError  error
+	expectError    bool
 	initEnvFunc    func()
 }
 
@@ -20,8 +19,8 @@ const CORRECT_GREETING = "TestGreet"
 func TestNewConfig(t *testing.T) {
 	testCases := []testNewConfigCase{
 		{
-			name:          "without any env var",
-			expectedError: errors.New("не установлены значения env-переменных: port, host, greeting"),
+			name:        "without any env var",
+			expectError: true,
 			initEnvFunc: func() {
 				os.Unsetenv(PORT_ENV_NAME)
 				os.Unsetenv(HOST_ENV_NAME)
@@ -47,7 +46,7 @@ func TestNewConfig(t *testing.T) {
 		tc.initEnvFunc()
 
 		cfg, err := NewConfig()
-		if tc.expectedError != nil && err == nil {
+		if tc.expectError && err == nil {
 			t.Error("Expected to return error, but no error returned")
 			continue
 		}
