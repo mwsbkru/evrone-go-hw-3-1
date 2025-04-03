@@ -13,8 +13,8 @@ type Server struct {
 	cfg *config.Config
 }
 
-func NewServer(cfg *config.Config) httpserver.ServerInterface {
-	return Server{cfg: cfg}
+func NewServer(cfg *config.Config) *Server {
+	return &Server{cfg: cfg}
 }
 
 func (s Server) GetHello(w http.ResponseWriter, r *http.Request, params httpserver.GetHelloParams) {

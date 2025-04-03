@@ -2,43 +2,22 @@ package config
 
 import (
 	"fmt"
-	"os"
-	"strings"
+	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type Config struct {
-	Port     string
-	Host     string
-	Greeting string
+	Port     int    `env:"PORT" env-default:"8080"`
+	Host     string `env:"HOST" env-default:"0.0.0.0"`
+	Greeting string `env:"GREETING" env-default:"Hello"`
 }
 
-const PORT_ENV_NAME = "port"
-const HOST_ENV_NAME = "host"
-const GREETING_ENV_NAME = "greeting"
-
 func NewConfig() (Config, error) {
-	missingParams := make([]string, 0, 3)
+	var cfg Config
 
-	port, ok := os.LookupEnv(PORT_ENV_NAME)
-	if !ok {
-		missingParams = append(missingParams, PORT_ENV_NAME)
+	err := cleanenv.ReadEnv(&cfg)
+	if err != nil {
+		return Config{}, fmt.Errorf("не удалось инициализировать конфиг: %w", err)
 	}
 
-	host, ok := os.LookupEnv(HOST_ENV_NAME)
-	if !ok {
-		missingParams = append(missingParams, HOST_ENV_NAME)
-	}
-
-	greeting, ok := os.LookupEnv(GREETING_ENV_NAME)
-	if !ok {
-		missingParams = append(missingParams, GREETING_ENV_NAME)
-	}
-
-	if len(missingParams) != 0 {
-		missingFieldsStr := strings.Join(missingParams, ", ")
-		err := fmt.Errorf("не установлены значения env-переменных: %s", missingFieldsStr)
-		return Config{}, err
-	}
-
-	return Config{Port: port, Host: host, Greeting: greeting}, nil
+	return cfg, nil
 }

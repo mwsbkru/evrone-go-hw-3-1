@@ -9,5 +9,5 @@ oapi-codegen -config configs/oapi-gen-cfg.yaml api/openapi.json
 
 запуск сервера
 ```shell
-port=8080 host=0.0.0.0 greeting=привет go run .
+PORT=8081 HOST=0.0.0.0 GREETING=привет go run .
 ```

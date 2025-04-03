@@ -20,7 +20,7 @@ func main() {
 	server := httpserver.NewServer(&cfg)
 	router := http.NewServeMux()
 	handler := httpserver2.HandlerFromMux(server, router)
-	addr := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
+	addr := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
 
 	httpServer := &http.Server{
 		Handler: handler,
